@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  password  String
+  bags      Bag[]
+  favorites Favorite[]
+  orders    Order[]
+}
+
+model Product {
+  id           String       @id @default(uuid())
+  title        String
+  description  String
+  collection   Collection   @relation(fields: [collectionId], references: [id])
+  collectionId String
+  type         ProductType  @relation(fields: [typeId], references: [id])
+  typeId       String
+  price        Float
+  frontPage    String
+  images       Image[]
+  bags         Bag[]
+  favorites    Favorite[]
+  orders       Order[]
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  url       String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model Collection {
+  id       String    @id @default(uuid())
+  name     String
+  products Product[]
+}
+
+model ProductType {
+  id       String    @id @default(uuid())
+  name     String
+  products Product[]
+}
+
+model Bag {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  amount    Int
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model Order {
+  id             String   @id @default(uuid())
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  product        Product  @relation(fields: [productId], references: [id])
+  productId      String
+  amount         Int
+  totalExpense   Float
+  deliveryStatus Boolean
+  paid           Int
+  date           DateTime
+  gender         Gender   @relation(fields: [genderId], references: [id])
+  genderId       String
+  size           Size     @relation(fields: [sizeId], references: [id])
+  sizeId         String
+}
+
+model Size {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  orders      Order[]
+}
+
+model Gender {
+  id     String   @id @default(uuid())
+  name   String
+  orders Order[]
+}
