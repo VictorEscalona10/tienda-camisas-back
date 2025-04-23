@@ -10,6 +10,8 @@ Este es el backend para una tienda de camisas desarrollado con Node.js, Express 
 - Middlewares para validación y seguridad
 - Estructura modular y escalable
 - Documentación de API con Swagger
+- Seguridad mejorada con Helmet y CORS
+- Rate limiting para protección contra ataques
 
 ## 📋 Prerequisitos
 
@@ -32,9 +34,25 @@ npm install
 
 3. Configurar variables de entorno:
 Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
-```
+
+```env
+# Configuración de la base de datos
 DATABASE_URL="postgresql://usuario:contraseña@localhost:5432/tienda_camisas"
-JWT_SECRET="tu-secreto-jwt"
+
+# Configuración de JWT
+JWT_SECRET="tu-secreto-jwt-aqui"
+JWT_EXPIRES_IN="7d"
+
+# Configuración del servidor
+PORT=3000
+NODE_ENV=development
+
+# Configuración de CORS
+CORS_ORIGIN="http://localhost:3000"
+
+# Configuración de Rate Limiting
+RATE_LIMIT_WINDOW_MS=900000  # 15 minutos en milisegundos
+RATE_LIMIT_MAX_REQUESTS=100  # Máximo de peticiones por ventana
 ```
 
 4. Inicializar la base de datos:
@@ -47,6 +65,16 @@ npx prisma migrate dev
 Para iniciar el servidor en modo desarrollo:
 ```bash
 npm run dev
+```
+
+Para generar el cliente de Prisma:
+```bash
+npm run prisma:generate
+```
+
+Para abrir Prisma Studio (interfaz visual de la base de datos):
+```bash
+npm run prisma:studio
 ```
 
 ## 📚 Documentación de la API
@@ -99,6 +127,20 @@ src/
 - Bcrypt para encriptación
 - Cookie-parser para manejo de cookies
 - Swagger/OpenAPI para documentación
+- Helmet para seguridad (aun pensando)
+- CORS para manejo de orígenes cruzados (aun no)
+- Express Rate Limit para protección contra ataques
+
+## 🔒 Seguridad
+
+El proyecto implementa varias medidas de seguridad:
+- Autenticación con JWT
+- Encriptación de contraseñas con bcrypt
+- Headers de seguridad con Helmet
+- Protección contra ataques con Rate Limiting
+- Validación de datos de entrada
+- Manejo seguro de cookies
+- CORS configurado (aun no)
 
 ## 📝 Licencia
 
