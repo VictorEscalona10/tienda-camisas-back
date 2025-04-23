@@ -20,12 +20,19 @@
  *       properties:
  *         name:
  *           type: string
+ *           description: Nombre del usuario (mínimo 4 caracteres)
  *         email:
  *           type: string
+ *           format: email
+ *           description: Email del usuario
  *         password:
  *           type: string
+ *           format: password
+ *           description: Contraseña del usuario (mínimo 8 caracteres)
  *         repeatPassword:
  *           type: string
+ *           format: password
+ *           description: Contraseña igual al campo anterior
  *       required:
  *         - name
  *         - email
@@ -37,25 +44,38 @@
  *       properties:
  *         email:
  *           type: string
+ *           format: email
+ *           description: Email del usuario
  *         password:
  *           type: string
+ *           format: password
+ *           description: Contraseña del usuario
  *       required:
  *         - email
  *         - password
  * 
- *     ErrorResponse:
+ *     ValidationError:
  *       type: object
  *       properties:
- *         error:
+ *         ok:
  *           type: boolean
- *         message:
- *           type: string
+ *           example: false
+ *         error:
+ *           type: object
+ *           properties:
+ *             field:
+ *               type: string
+ *               example: "name"
+ *             message:
+ *               type: string
+ *               example: "El nombre es requerido"
  * 
  *     SuccessResponse:
  *       type: object
  *       properties:
- *         error:
+ *         ok:
  *           type: boolean
+ *           example: true
  *         message:
  *           type: string
  *         data:
@@ -82,23 +102,23 @@
  *             schema:
  *               $ref: '#/components/schemas/SuccessResponse'
  *       400:
- *         description: Las contraseñas no coinciden
+ *         description: Error de validación
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
+ *               $ref: '#/components/schemas/ValidationError'
  *       409:
  *         description: Usuario ya registrado
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
+ *               $ref: '#/components/schemas/ValidationError'
  *       500:
  *         description: Error interno del servidor
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
+ *               $ref: '#/components/schemas/ValidationError'
  */
 
 /**
@@ -125,18 +145,24 @@
  *             schema:
  *               type: string
  *               description: Cookie de autenticación
+ *       400:
+ *         description: Error de validación
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *       401:
  *         description: Credenciales inválidas
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
+ *               $ref: '#/components/schemas/ValidationError'
  *       500:
  *         description: Error interno del servidor
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
+ *               $ref: '#/components/schemas/ValidationError'
  */
 
 /**
@@ -157,5 +183,5 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
+ *               $ref: '#/components/schemas/ValidationError'
  */ 
