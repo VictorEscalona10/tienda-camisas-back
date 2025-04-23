@@ -14,7 +14,7 @@ const app = express()
 
 // middlewares
 app.use(express.json())
-app.use(cookieParser())
+app.use(cookieParser(config.COOKIE_SECRET))
 app.use(limiter) // limitar peticiones de terceros
 
 // routes
