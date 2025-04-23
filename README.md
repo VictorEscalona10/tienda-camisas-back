@@ -8,6 +8,7 @@ Este es el backend para una tienda de camisas desarrollado con Node.js, Express 
 - Autenticación con JWT
 - Base de datos con Prisma ORM
 - Middlewares para validación y seguridad
+- Validaciones de datos con express-validator
 - Estructura modular y escalable
 - Documentación de API con Swagger
 - Seguridad mejorada con Helmet y CORS
@@ -101,7 +102,37 @@ La documentación incluye:
 
 #### Autenticación
 - `POST /api/auth/register` - Registro de nuevos usuarios
+  - Validaciones:
+    - name (mínimo 4 caracteres)
+    - email (formato válido)
+    - password (mínimo 8 caracteres)
+    - repeatPassword (igual que password)
+  - Respuestas de error:
+    ```json
+    {
+      "ok": false,
+      "error": {
+        "field": "nombre_del_campo",
+        "message": "mensaje de error"
+      }
+    }
+    ```
+
 - `POST /api/auth/login` - Inicio de sesión
+  - Validaciones:
+    - email (formato válido)
+    - password (no vacía)
+  - Respuestas de error:
+    ```json
+    {
+      "ok": false,
+      "error": {
+        "field": "nombre_del_campo",
+        "message": "mensaje de error"
+      }
+    }
+    ```
+
 - `POST /api/auth/logout` - Cierre de sesión
 
 ## 📁 Estructura del Proyecto

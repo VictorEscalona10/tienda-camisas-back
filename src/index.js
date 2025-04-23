@@ -14,8 +14,8 @@ const app = express()
 
 // middlewares
 app.use(express.json())
-app.use(cookieParser())
-app.use(limiter) // limitar peticiones
+app.use(cookieParser(config.COOKIE_SECRET))
+app.use(limiter) // limitar peticiones de terceros
 
 // routes
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

@@ -1,6 +1,7 @@
 import prisma from "../config/db.js";
 import createJWT from "../services/jwtService.js";
 import {hashPassword, comparePassword} from "../services/passwordService.js";
+import config from "../config/config.js";
 
 export const register = async (req, res) => {
     const {name, email, password, repeatPassword} = req.body
@@ -81,9 +82,12 @@ export const login = async (req,res) => {
 
         res.cookie('authToken', token, {
             httpOnly: true,
-            secure: false,
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000
+            secure: config.NODE_ENV === 'production', // Requiere HTTPS en producción
+            sameSite: config.NODE_ENV === 'production' ? 'strict' : 'lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
+            path: '/', // Cookie disponible en toda la aplicación
+            signed: true, 
+            partitioned: true
         })
 
         const {password: _, ...user} = findUser
@@ -95,7 +99,7 @@ export const login = async (req,res) => {
         })
     } catch(error){
         return res.status(500).json({
-            error: true,
+            error: error,
             message: "Error interno en el servidor, intentalo mas tarde"
         })
     }
