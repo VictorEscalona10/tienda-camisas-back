@@ -1,5 +1,5 @@
 import prisma from "../config/db.js";
-import createJWT from "../services/jwtService.js";
+import {createJWT} from "../services/jwtService.js";
 import {hashPassword, comparePassword} from "../services/passwordService.js";
 import config from "../config/config.js";
 

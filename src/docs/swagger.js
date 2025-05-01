@@ -14,8 +14,17 @@ const options = {
                 description: 'Servidor de desarrollo',
             },
         ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT'
+                }
+            }
+        }
     },
-    apis: ['./src/docs/*.js'], // Ruta a los archivos de documentación
+    apis: ['./src/docs/api.swagger.js'], // Solo usamos el archivo combinado
 };
 
 const swaggerSpec = swaggerJsdoc(options);
