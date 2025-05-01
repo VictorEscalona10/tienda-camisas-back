@@ -175,4 +175,4 @@ El proyecto implementa varias medidas de seguridad:
 
 ## 📝 Licencia
 
-Este proyecto está bajo la Licencia ISC. 
+Este proyecto está bajo la Licencia ISC.

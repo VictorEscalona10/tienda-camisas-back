@@ -1,0 +1,4 @@
+Administrador (Víctor)
+Crear, editar y eliminar productos
+Subir imagen de portada del producto y sus imágenes de presentación
+Crear, editar y eliminar las tallas, colecciones, órdenes y tipos de producto
